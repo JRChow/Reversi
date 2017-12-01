@@ -68,6 +68,9 @@ def query_player(game, state):
         move = move_string
     return move
 
+def random_player(game, state):
+    """A player that chooses a legal move at random."""
+    return random.choice(game.actions(state))
 
 def alphabeta_player(game, state):
     return alphabeta_search(state, game)
@@ -131,7 +134,75 @@ class Reversi(Game):
     def __init__(self, height=8, width=8):
         self.height = height
         self.width = width
-        # TODO: figure out what k is
+        init_white = [(4, 4), (5, 5)]
+        init_black = [(4, 5), (5, 4)]
         moves = [(x, y) for x in range(1, width+1)
                         for y in range(1, height+1)]
-        self.initial
+        self.initial = GameState(to_move='B', utility=0, board={}, moves=moves)
+
+
+    def capture_enemy(self, board, move, player, delta_x_y):
+        """Returns true if any enemy is captured in the specified direction."""
+        enemy = 'B' if player == 'W' else 'W'
+        (delta_x, delta_y) = delta_x_y
+        x, y = move
+        x, y = x + delta_x, y + delta_y
+        enemy_count = 0
+        while board.get((x, y)) == enemy:
+            board[(x, y)] = player  # Flip
+            enemy_count += 1
+            x, y = x + delta_x, y + delta_y
+        if enemy_count > 0:
+            return True
+        else:
+            # Opposite direction
+            x, y = move
+            x, y = x - delta_x, y - delta_y
+            enemy_count = 0
+            while board.get((x, y)) == enemy:
+                board[(x, y)] = player  # Flip
+                enemy_count += 1
+                x, y = x + delta_x, y + delta_y
+            return enemy_count > 0
+
+    def move_is_valid(self, board, move, player):
+        return (self.capture_enemy(board, move, player, (0, 1)) or
+                self.capture_enemy(board, move, player, (1, 0)) or 
+                self.capture_enemy(board, move, player, (1, -1)) or 
+                self.capture_enemy(board, move, player, (1, 1)))
+
+    def actions(self, state):
+        return state.moves
+
+    def result(self, state, move):
+        # Invalid move
+        if move not in state.moves:
+            return state
+        board = state.board.copy()
+        board[move] = state.to_move
+        moves = list(state.moves)
+        moves.remove(move)
+        moves = [mv for mv in moves if self.move_is_valid(state.board, mv, state.to_move)]
+        return GameState(to_move=('W' if state.to_move == 'B' else 'B'),
+                         utility=self.compute_utility(board, move, state.to_move),
+                         board=board, moves=moves)
+
+    def utility(self, state, player):
+        return state.utility if player == 'B' else -state.utility
+
+    def terminal_test(self, state):
+        return state.utility != 0 or len(state.moves) == 0
+
+    def display(self, state):
+        board = state.board
+        for y in range(1, self.height + 1):
+            for x in range(1, self.width + 1):
+                print(board.get((x, y), '.',), end=' ')
+            print()
+
+    def compute_utility(self, board, move, player):
+        # TODO 
+        return 0
+
+game = Reversi()
+game.play_game(query_player, random_player)
