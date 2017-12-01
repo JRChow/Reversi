@@ -179,21 +179,24 @@ class Reversi(Game):
     def actions(self, state):
         """Legal moves."""
         return state.moves
-        
+
 
     def result(self, state, move):
         # Invalid move
         if move not in state.moves:
             return state
+        opponent_player = 'W' if state.to_move == 'B' else 'B'
         board = state.board.copy()
-        board[move] = state.to_move
-        # Flip
+        board[move] = state.to_move  # Show the move on the board
+        # Flip enemy
         for enemy in self.enemy_captured_by_move(board, move, state.to_move):
-            board[move] = state.to_move
-        moves = list(state.moves)
-        moves.remove(move)
-        moves = [mv for mv in moves if self.enemy_captured_by_move(state.board, mv, state.to_move)]
-        return GameState(to_move=('W' if state.to_move == 'B' else 'B'),
+            board[enemy] = state.to_move
+        # Regenerate valid moves
+        moves = [(x, y) for x in range(1, self.width+1) 
+                        for y in range(1, self.height+1) 
+                        if (x, y) not in board.keys() and
+                                self.enemy_captured_by_move(board, (x, y), opponent_player)]
+        return GameState(to_move=opponent_player,
                          utility=self.compute_utility(board, move, state.to_move),
                          board=board, moves=moves)
 
