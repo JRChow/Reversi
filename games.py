@@ -4,69 +4,6 @@
 from utils import *
 import random
 
-# Minimax Search
-
-def minimax_decision(state, game):
-    """Given a state in a game, calculate the best move by searching
-    forward all the way to the terminal states. [Fig. 6.4]"""
-
-    player = game.to_move(state)
-
-    def max_value(state):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = -infinity
-        for (a, s) in game.successors(state):
-            v = max(v, min_value(s))
-        return v
-
-    def min_value(state):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = infinity
-        for (a, s) in game.successors(state):
-            v = min(v, max_value(s))
-        return v
-
-    # Body of minimax_decision starts here:
-    action, state = argmax(game.successors(state),
-                           lambda ((a, s)): min_value(s))
-    return action
-
-
-
-def alphabeta_full_search(state, game):
-    """Search game to determine best action; use alpha-beta pruning.
-    As in [Fig. 6.7], this version searches all the way to the leaves."""
-
-    player = game.to_move(state)
-
-    def max_value(state, alpha, beta):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = -infinity
-        for (a, s) in game.successors(state):
-            v = max(v, min_value(s, alpha, beta))
-            if v >= beta:
-                return v
-            alpha = max(alpha, v)
-        return v
-
-    def min_value(state, alpha, beta):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = infinity
-        for (a, s) in game.successors(state):
-            v = min(v, max_value(s, alpha, beta))
-            if v <= alpha:
-                return v
-            beta = min(beta, v)
-        return v
-
-    # Body of alphabeta_search starts here:
-    action, state = argmax(game.successors(state),
-                           lambda ((a, s)): min_value(s, -infinity, infinity))
-    return action
 
 def alphabeta_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     """Search game to determine best action; use alpha-beta pruning.
@@ -79,7 +16,7 @@ def alphabeta_search(state, game, d=4, cutoff_test=None, eval_fn=None):
             return eval_fn(state)
         v = -infinity
         for (a, s) in game.successors(state):
-            v = max(v, min_value(s, alpha, beta, depth+1))
+            v = max(v, min_value(s, alpha, beta, depth + 1))
             if v >= beta:
                 return v
             alpha = max(alpha, v)
@@ -90,7 +27,7 @@ def alphabeta_search(state, game, d=4, cutoff_test=None, eval_fn=None):
             return eval_fn(state)
         v = infinity
         for (a, s) in game.successors(state):
-            v = min(v, max_value(s, alpha, beta, depth+1))
+            v = min(v, max_value(s, alpha, beta, depth + 1))
             if v <= alpha:
                 return v
             beta = min(beta, v)
@@ -99,11 +36,12 @@ def alphabeta_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     # Body of alphabeta_search starts here:
     # The default test cuts off at depth d or at a terminal state
     cutoff_test = (cutoff_test or
-                   (lambda state,depth: depth>d or game.terminal_test(state)))
+                   (lambda state,depth: depth > d or game.terminal_test(state)))
     eval_fn = eval_fn or (lambda state: game.utility(state, player))
     action, state = argmax(game.successors(state),
                            lambda ((a, s)): min_value(s, -infinity, infinity, 0))
     return action
+
 
 # Players for Games
 
@@ -112,12 +50,10 @@ def query_player(game, state):
     game.display(state)
     return num_or_str(raw_input('Your move? '))
 
-def random_player(game, state):
-    "A player that chooses a legal move at random."
-    return random.choice(game.legal_moves())
 
 def alphabeta_player(game, state):
     return alphabeta_search(state, game)
+
 
 def play_game(game, *players):
     "Play an n-person, move-alternating game."
@@ -128,6 +64,7 @@ def play_game(game, *players):
             state = game.make_move(move, state)
             if game.terminal_test(state):
                 return game.utility(state, players[0])
+
 
 # Some Sample Games
 
@@ -171,6 +108,7 @@ class Game:
 
     def __repr__(self):
         return '<%s>' % self.__class__.__name__
+
 
 class TicTacToe(Game):
     """Play TicTacToe on an h x v board, with Max (first player) playing 'X'.
@@ -224,7 +162,7 @@ class TicTacToe(Game):
     def k_in_row(self, board, move, player, (delta_x, delta_y)):
         "Return true if there is a line through move on board for player."
         x, y = move
-        n = 0 # n is number of moves in row
+        n = 0  # n is number of moves in row
         while board.get((x, y)) == player:
             n += 1
             x, y = x + delta_x, y + delta_y
@@ -232,18 +170,5 @@ class TicTacToe(Game):
         while board.get((x, y)) == player:
             n += 1
             x, y = x - delta_x, y - delta_y
-        n -= 1 # Because we counted move itself twice
+        n -= 1  # Because we counted move itself twice
         return n >= self.k
-
-class ConnectFour(TicTacToe):
-    """A TicTacToe-like game in which you can only make a move on the bottom
-    row, or in a square directly above an occupied square.  Traditionally
-    played on a 7x6 board and requiring 4 in a row."""
-
-    def __init__(self, h=7, v=6, k=4):
-        TicTacToe.__init__(self, h, v, k)
-
-    def legal_moves(self, state):
-        "Legal moves are any square not yet taken."
-        return [(x, y) for (x, y) in state.moves
-                if y == 0 or (x, y-1) in state.board]
