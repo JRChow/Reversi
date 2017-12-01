@@ -134,45 +134,52 @@ class Reversi(Game):
     def __init__(self, height=8, width=8):
         self.height = height
         self.width = width
-        init_white = [(4, 4), (5, 5)]
-        init_black = [(4, 5), (5, 4)]
-        moves = [(x, y) for x in range(1, width+1)
-                        for y in range(1, height+1)]
-        self.initial = GameState(to_move='B', utility=0, board={}, moves=moves)
+        init_white_pos = [(4, 4), (5, 5)]
+        init_black_pos = [(4, 5), (5, 4)]
+        init_white_board = dict.fromkeys(init_white_pos, 'W')
+        init_black_board = dict.fromkeys(init_black_pos, 'B')
+        board = {**init_white_board, **init_black_board}
+        moves = [(x, y) for x in range(1, width+1) 
+                        for y in range(1, height+1) 
+                        if (x, y) not in init_white_pos and 
+                            (x, y) not in init_black_pos and 
+                                self.enemy_captured_by_move(board, (x, y), 'B')]
+        self.initial = GameState(to_move='B', utility=0, board=board, moves=moves)
 
 
-    def capture_enemy(self, board, move, player, delta_x_y):
+    def capture_enemy_in_dir(self, board, move, player, delta_x_y):
         """Returns true if any enemy is captured in the specified direction."""
         enemy = 'B' if player == 'W' else 'W'
         (delta_x, delta_y) = delta_x_y
         x, y = move
         x, y = x + delta_x, y + delta_y
-        enemy_count = 0
+        enemy_list = []
         while board.get((x, y)) == enemy:
-            board[(x, y)] = player  # Flip
-            enemy_count += 1
+            # board[(x, y)] = player  # Flip
+            enemy_list.append((x, y))
             x, y = x + delta_x, y + delta_y
-        if enemy_count > 0:
-            return True
+        if board.get((x, y)) == player and len(enemy_list) > 0:
+            return enemy_list
         else:
-            # Opposite direction
+            # Try the opposite direction
             x, y = move
             x, y = x - delta_x, y - delta_y
-            enemy_count = 0
+            enemy_list = []
             while board.get((x, y)) == enemy:
-                board[(x, y)] = player  # Flip
-                enemy_count += 1
+                # board[(x, y)] = player  # Flip
+                enemy_list.append((x, y))
                 x, y = x + delta_x, y + delta_y
-            return enemy_count > 0
+            if board.get((x, y)) != player:
+                del enemy_list[:]
+            return enemy_list
 
-    def move_is_valid(self, board, move, player):
-        return (self.capture_enemy(board, move, player, (0, 1)) or
-                self.capture_enemy(board, move, player, (1, 0)) or 
-                self.capture_enemy(board, move, player, (1, -1)) or 
-                self.capture_enemy(board, move, player, (1, 1)))
+    def enemy_captured_by_move(self, board, move, player):
+        return self.capture_enemy_in_dir(board, move, player, (0, 1)) + self.capture_enemy_in_dir(board, move, player, (1, 0)) + self.capture_enemy_in_dir(board, move, player, (1, -1)) + self.capture_enemy_in_dir(board, move, player, (1, 1))
 
     def actions(self, state):
+        """Legal moves."""
         return state.moves
+        
 
     def result(self, state, move):
         # Invalid move
@@ -180,9 +187,12 @@ class Reversi(Game):
             return state
         board = state.board.copy()
         board[move] = state.to_move
+        # Flip
+        for enemy in self.enemy_captured_by_move(board, move, state.to_move):
+            board[move] = state.to_move
         moves = list(state.moves)
         moves.remove(move)
-        moves = [mv for mv in moves if self.move_is_valid(state.board, mv, state.to_move)]
+        moves = [mv for mv in moves if self.enemy_captured_by_move(state.board, mv, state.to_move)]
         return GameState(to_move=('W' if state.to_move == 'B' else 'B'),
                          utility=self.compute_utility(board, move, state.to_move),
                          board=board, moves=moves)
