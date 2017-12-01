@@ -70,6 +70,7 @@ def query_player(game, state):
 
 def random_player(game, state):
     """A player that chooses a legal move at random."""
+    game.display(state)
     return random.choice(game.actions(state))
 
 def alphabeta_player(game, state):
