@@ -139,11 +139,7 @@ class Reversi(Game):
         init_white_board = dict.fromkeys(init_white_pos, 'W')
         init_black_board = dict.fromkeys(init_black_pos, 'B')
         board = {**init_white_board, **init_black_board}
-        moves = [(x, y) for x in range(1, width+1) 
-                        for y in range(1, height+1) 
-                        if (x, y) not in init_white_pos and 
-                            (x, y) not in init_black_pos and 
-                                self.enemy_captured_by_move(board, (x, y), 'B')]
+        moves = self.get_valid_moves(board, 'B')
         self.initial = GameState(to_move='B', utility=0, board=board, moves=moves)
 
 
@@ -180,6 +176,11 @@ class Reversi(Game):
         """Legal moves."""
         return state.moves
 
+    def get_valid_moves(self, board, player):
+        return [(x, y) for x in range(1, self.width+1) 
+                       for y in range(1, self.height+1) 
+                        if (x, y) not in board.keys() and
+                                self.enemy_captured_by_move(board, (x, y), player)]
 
     def result(self, state, move):
         # Invalid move
@@ -192,10 +193,7 @@ class Reversi(Game):
         for enemy in self.enemy_captured_by_move(board, move, state.to_move):
             board[enemy] = state.to_move
         # Regenerate valid moves
-        moves = [(x, y) for x in range(1, self.width+1) 
-                        for y in range(1, self.height+1) 
-                        if (x, y) not in board.keys() and
-                                self.enemy_captured_by_move(board, (x, y), opponent_player)]
+        moves = self.get_valid_moves(board, opponent_player)
         return GameState(to_move=opponent_player,
                          utility=self.compute_utility(board, move, state.to_move),
                          board=board, moves=moves)
