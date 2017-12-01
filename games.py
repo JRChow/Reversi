@@ -193,3 +193,10 @@ class TicTacToe(Game):
             x, y = x - delta_x, y - delta_y
         n -= 1  # Because we counted move itself twice
         return n >= self.k
+
+t_game = TicTacToe()
+t_game.play_game(query_player, alphabeta_player)
+
+class Reversi(Game):
+    """Reversi game."""
+    
