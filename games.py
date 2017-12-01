@@ -9,36 +9,6 @@ infinity = float('inf')
 GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 
 # ______________________________________________________________________________
-# Minimax Search
-
-
-def minimax_decision(state, game):
-    """Given a state in a game, calculate the best move by searching
-    forward all the way to the terminal states. [Figure 5.3]"""
-
-    player = game.to_move(state)
-
-    def max_value(state):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = -infinity
-        for a in game.actions(state):
-            v = max(v, min_value(game.result(state, a)))
-        return v
-
-    def min_value(state):
-        if game.terminal_test(state):
-            return game.utility(state, player)
-        v = infinity
-        for a in game.actions(state):
-            v = min(v, max_value(game.result(state, a)))
-        return v
-
-    # Body of minimax_decision:
-    return argmax(game.actions(state),
-                  key=lambda a: min_value(game.result(state, a)))
-
-# ______________________________________________________________________________
 
 
 def alphabeta_search(state, game):
@@ -81,54 +51,6 @@ def alphabeta_search(state, game):
             best_action = a
     return best_action
 
-
-def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
-    """Search game to determine best action; use alpha-beta pruning.
-    This version cuts off search and uses an evaluation function."""
-
-    player = game.to_move(state)
-
-    # Functions used by alphabeta
-    def max_value(state, alpha, beta, depth):
-        if cutoff_test(state, depth):
-            return eval_fn(state)
-        v = -infinity
-        for a in game.actions(state):
-            v = max(v, min_value(game.result(state, a),
-                                 alpha, beta, depth + 1))
-            if v >= beta:
-                return v
-            alpha = max(alpha, v)
-        return v
-
-    def min_value(state, alpha, beta, depth):
-        if cutoff_test(state, depth):
-            return eval_fn(state)
-        v = infinity
-        for a in game.actions(state):
-            v = min(v, max_value(game.result(state, a),
-                                 alpha, beta, depth + 1))
-            if v <= alpha:
-                return v
-            beta = min(beta, v)
-        return v
-
-    # Body of alphabeta_cutoff_search starts here:
-    # The default test cuts off at depth d or at a terminal state
-    cutoff_test = (cutoff_test or
-                   (lambda state, depth: depth > d or
-                    game.terminal_test(state)))
-    eval_fn = eval_fn or (lambda state: game.utility(state, player))
-    best_score = -infinity
-    beta = infinity
-    best_action = None
-    for a in game.actions(state):
-        v = min_value(game.result(state, a), best_score, beta, 1)
-        if v > best_score:
-            best_score = v
-            best_action = a
-    return best_action
-
 # ______________________________________________________________________________
 # Players for Games
 
@@ -145,11 +67,6 @@ def query_player(game, state):
     except NameError:
         move = move_string
     return move
-
-
-def random_player(game, state):
-    """A player that chooses a legal move at random."""
-    return random.choice(game.actions(state))
 
 
 def alphabeta_player(game, state):
@@ -207,59 +124,6 @@ class Game:
                     self.display(state)
                     return self.utility(state, self.to_move(self.initial))
 
-
-class Fig52Game(Game):
-    """The game represented in [Figure 5.2]. Serves as a simple test case."""
-
-    succs = dict(A=dict(a1='B', a2='C', a3='D'),
-                 B=dict(b1='B1', b2='B2', b3='B3'),
-                 C=dict(c1='C1', c2='C2', c3='C3'),
-                 D=dict(d1='D1', d2='D2', d3='D3'))
-    utils = dict(B1=3, B2=12, B3=8, C1=2, C2=4, C3=6, D1=14, D2=5, D3=2)
-    initial = 'A'
-
-    def actions(self, state):
-        return list(self.succs.get(state, {}).keys())
-
-    def result(self, state, move):
-        return self.succs[state][move]
-
-    def utility(self, state, player):
-        if player == 'MAX':
-            return self.utils[state]
-        else:
-            return -self.utils[state]
-
-    def terminal_test(self, state):
-        return state not in ('A', 'B', 'C', 'D')
-
-    def to_move(self, state):
-        return 'MIN' if state in 'BCD' else 'MAX'
-
-
-class Fig52Extended(Game):
-    """Similar to Fig52Game but bigger. Useful for visualisation"""
-
-    succs = {i:dict(l=i*3+1, m=i*3+2, r=i*3+3) for i in range(13)}
-    utils = dict()
-
-    def actions(self, state):
-        return sorted(list(self.succs.get(state, {}).keys()))
-
-    def result(self, state, move):
-        return self.succs[state][move]
-
-    def utility(self, state, player):
-        if player == 'MAX':
-            return self.utils[state]
-        else:
-            return -self.utils[state]
-
-    def terminal_test(self, state):
-        return state not in range(13)
-
-    def to_move(self, state):
-        return 'MIN' if state in {1, 2, 3} else 'MAX'
 
 class TicTacToe(Game):
     """Play TicTacToe on an h x v board, with Max (first player) playing 'X'.
@@ -329,16 +193,3 @@ class TicTacToe(Game):
             x, y = x - delta_x, y - delta_y
         n -= 1  # Because we counted move itself twice
         return n >= self.k
-
-
-class ConnectFour(TicTacToe):
-    """A TicTacToe-like game in which you can only make a move on the bottom
-    row, or in a square directly above an occupied square.  Traditionally
-    played on a 7x6 board and requiring 4 in a row."""
-
-    def __init__(self, h=7, v=6, k=4):
-        TicTacToe.__init__(self, h, v, k)
-
-    def actions(self, state):
-        return [(x, y) for (x, y) in state.moves
-                if y == 1 or (x, y - 1) in state.board]
