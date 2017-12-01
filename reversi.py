@@ -206,9 +206,15 @@ class Reversi(Game):
 
     def display(self, state):
         board = state.board
-        for y in range(1, self.height + 1):
-            for x in range(1, self.width + 1):
-                print(board.get((x, y), '.',), end=' ')
+        for y in range(0, self.height + 1):
+            for x in range(0, self.width + 1):
+                if x > 0 and y > 0:
+                    print(board.get((x, y), '.',), end=' ')
+                if x == 0:
+                    if y > 0:
+                        print(y, end=' ')
+                if y == 0:
+                        print(x, end=' ')
             print()
 
     def compute_utility(self, board, move, player):
