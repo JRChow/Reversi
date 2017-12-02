@@ -40,6 +40,7 @@ class Board:
 
     def update(self, state):
         print("Update!!")
+        print("new state = " + state)
 
 
 root = Tk()
