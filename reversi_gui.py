@@ -42,7 +42,7 @@ class Board:
         self.state = self.game.play_game(move, self.state)
         self.update()
 
-        Tk.update()
+        master.update()
 
         ai_move = reversi_logic.alphabeta_player(self.game, self.state)
         self.state = self.game.play_game(ai_move, self.state)
