@@ -1,5 +1,6 @@
 from tkinter import *
 import reversi_logic
+import time
 
 
 class Board:
@@ -40,6 +41,8 @@ class Board:
         clicked_button.configure(bg="black")
         self.state = self.game.play_game(move, self.state)
         self.update()
+
+        time.sleep(5)
 
         ai_move = reversi_logic.alphabeta_player(self.game, self.state)
         self.state = self.game.play_game(ai_move, self.state)
