@@ -1,6 +1,10 @@
 from tkinter import *
 
 
+def click(event):
+    print("clicked!")
+
+
 class Board:
     def __init__(self, master):
         frame = Frame(master)
@@ -9,6 +13,7 @@ class Board:
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
                     button = Button(frame, text=".")
+                    button.bind("<Button-1>", click)
                     button.grid(row=row, column=col)
                 if col == 0 and row > 0:
                     label = Label(frame, text=str(row))
