@@ -48,7 +48,8 @@ class Board:
         print("Update!!")
         for pos in self.valid_moves:
             self.buttons[pos].configure(
-                bg="green" if self.state.to_move == 'W' else "lawn green")
+                bg="green" if self.state.to_move == 'W' else "lawn green",
+                state=NORMAL if self.state.to_move == 'B' else DISABLED)
         for pos, color in self.state.board.items():
             self.buttons[pos].configure(
                 bg="black" if color == 'B' else "white")
