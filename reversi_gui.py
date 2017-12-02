@@ -24,7 +24,7 @@ class Board:
                     else:
                         piece = Button(frame, text=".", bg="green")
                         piece.bind("<Button-1>", lambda event,
-                                   arg=(col, row): self.click(event, arg))
+                                   arg=(col, row): self.click(event, arg), state=DISABLED)
                         self.buttons[(col, row)] = piece
                 if col == 0 and row > 0:
                     piece = Label(frame, text=str(row))
