@@ -101,6 +101,7 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
 # ______________________________________________________________________________
 # Players for Games
 
+
 # def query_player(game, state):
 #     """Make a move by querying standard input."""
 #     print("current state:")
@@ -180,7 +181,7 @@ class Game:
         state = self.initial
         while True:
             for player in players:
-                move = player(self, state)
+                move = player(event, arg)
                 state = self.result(state, move)
                 if self.terminal_test(state):
                     self.display(state)
