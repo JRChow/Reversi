@@ -30,9 +30,7 @@ class Board:
 
 
 root = Tk()
-board = Board(root)
-
 game = Reversi()
-game.play_game(query_player, alphabeta_player)
-
+game.play_game(query_player)
+board = Board(root)
 root.mainloop()
