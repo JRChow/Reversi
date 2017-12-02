@@ -5,6 +5,7 @@ import time
 
 class Board:
     def __init__(self, master, game):
+        messagebox.showinfo("Title", "a Tk MessageBox")
         frame = Frame(master)
         frame.pack()
         self.master = master
