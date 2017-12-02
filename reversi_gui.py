@@ -36,7 +36,7 @@ class Board:
 
 
 root = Tk()
-game = reversi_logic.Reversi()
+# game = reversi_logic.Reversi()
 # game.play_game(query_player)
 board = Board(root)
 root.mainloop()
