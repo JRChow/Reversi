@@ -2,6 +2,7 @@
 
 from collections import namedtuple
 import random
+import reversi_gui
 
 from utils import argmax
 
@@ -77,11 +78,10 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
 
 
 def query_player(event, arg):
-    global board, game
     # print("clicked!")
     # print(arg)
-    board.buttons[arg].configure(bg="black")
-    state = game.result(state, move)
+    reversi_gui.board.buttons[arg].configure(bg="black")
+    state = reversi_gui.game.result(state, move)
     return eval(arg)
 
 
