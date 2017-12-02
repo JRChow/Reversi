@@ -13,7 +13,7 @@ class Board:
                     button = Button(frame, text=".", bg="green")
                     position = (col, row)  # (x, y)
                     button.bind("<Button-1>", lambda event,
-                                arg=position: reversi_logic.query_player(event, arg))
+                                arg=position: self.click(event, arg))
                     button.grid(row=row, column=col)
                     self.buttons[position] = button
                 if col == 0 and row > 0:
@@ -23,14 +23,14 @@ class Board:
                     label = Label(frame, text=chr(col + 96))
                     label.grid(row=row, column=col)
 
-    # def click(self, event, arg):
-    #     print("clicked!")
-    #     print(arg)
-    #     self.buttons[arg].configure(bg="black")
+    def click(self, event, arg):
+        print("clicked!")
+        print(arg)
+        self.buttons[arg].configure(bg="black")
 
 
 root = Tk()
-# game = reversi_logic.Reversi()
-# game.play_game(query_player)
+game = reversi_logic.Reversi()
+game.play_game(query_player)
 board = Board(root)
 root.mainloop()
