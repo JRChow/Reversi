@@ -6,7 +6,6 @@ import time
 
 class Board:
     def __init__(self, master, game):
-        messagebox.showinfo("Title", "a Tk MessageBox")
         frame = Frame(master)
         frame.pack()
         self.master = master
@@ -66,6 +65,9 @@ class Board:
                 else:  # Background
                     self.buttons[pos].configure(bg="green", state=DISABLED)
         self.master.update()  # Refresh UI
+        if self.game.terminal_test(self.state):
+            messagebox.showinfo(
+                "Game Ends", "You Win!" if self.state.utility == +100 else "You lose!")
 
 
 root = Tk()
