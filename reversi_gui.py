@@ -1,5 +1,5 @@
 from tkinter import *
-from reversi import *
+# from reversi import *
 
 
 class Board:
