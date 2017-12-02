@@ -9,7 +9,7 @@ class Board:
         self.buttons = {}
         for row in range(0, 8 + 1):  # TODO: remove hard-code
             for col in range(0, 8 + 1):  # TODO: remove hard-code
-                piece = Button(frame)
+                piece = Label(frame)
                 if col > 0 and row > 0:
                     if (col, row) in initial_state.board:
                         piece = Button(frame, bg="black" if initial_state.board.get(
