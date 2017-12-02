@@ -80,7 +80,7 @@ class Game:
     def play_game(self, move, state):
         """Play an n-person, move-alternating game."""
         print(state)
-        new_state = self.result(move, state)
+        new_state = self.result(state, move)
         return new_state
         # while True:
         #     for player in players:
