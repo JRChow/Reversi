@@ -31,7 +31,7 @@ class Board:
                 self.buttons[(col, row)] = piece
                 piece.bind("<Button-1>", lambda event,
                            move=(col, row): self.click(event, move))
-                piece.grid(row=row, column=col)
+                piece.grid(row=row, column=col, sticky=N + S + E + W)
 
     def click(self, event, move):
         clicked_button = self.buttons[move]
@@ -66,7 +66,8 @@ class Board:
 
 root = Tk()
 root.title('Reversi')
-root.columnconfigure(0, weight=1)
+# Grid.rowconfigure(root, 0, weight=1)
+# Grid.columnconfigure(root, 0, weight=1)
 game = reversi_logic.Reversi()
 board = Board(root, game)
 root.mainloop()
