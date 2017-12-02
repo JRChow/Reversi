@@ -37,6 +37,7 @@ class Board:
         self.buttons[move].configure(bg="black")
         self.state = self.game.play_game(move, self.state)
         self.update()
+        print("NEW MOVE == " + str(self.game.alphabeta_player(self.state)))
 
     def update(self):
         print("Update!!")
