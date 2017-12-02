@@ -1,4 +1,5 @@
 from tkinter import *
+from reversi import *
 
 
 class Board:
@@ -9,7 +10,7 @@ class Board:
         for row in range(0, 8 + 1):  # TODO: remove hard-code
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
-                    button = Button(frame, text=".")
+                    button = Button(frame, text=".", bg="green")
                     position = (col, row)  # (x, y)
                     button.bind("<Button-1>", lambda event,
                                 arg=position: self.click(event, arg))
