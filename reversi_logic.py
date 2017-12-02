@@ -79,8 +79,9 @@ class Game:
 
     def play_game(self, move, state):
         """Play an n-person, move-alternating game."""
-        state = self.result(move, state)
-        return state
+        print(state)
+        new_state = self.result(move, state)
+        return new_state
         # while True:
         #     for player in players:
         #         move = player(self, state)
