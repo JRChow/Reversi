@@ -26,11 +26,8 @@ GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 #         move = move_string
 #     return move
 
-def query_player(event, arg):
-    # print("clicked!")
-    # print(arg)
-    state = game.result(state, move)
-    return eval(arg)
+def query_player(move):
+    return move
 
 
 def alphabeta_player(game, state):

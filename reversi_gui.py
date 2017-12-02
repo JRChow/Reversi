@@ -3,19 +3,23 @@ import reversi_logic
 
 
 class Board:
-    def __init__(self, master):
+    def __init__(self, master, initial_state):
         frame = Frame(master)
         frame.pack()
         self.buttons = {}
         for row in range(0, 8 + 1):  # TODO: remove hard-code
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
-                    button = Button(frame, text=".", bg="green")
-                    position = (col, row)  # (x, y)
-                    button.bind("<Button-1>", lambda event,
-                                arg=position: self.click(event, arg))
-                    button.grid(row=row, column=col)
-                    self.buttons[position] = button
+                    if (col, row) in initial_state.board:
+                        label = Label(frame, bg="black" if initial_state.board.get(
+                            col, row) == 'B' else 'white')
+                    else:
+                        button = Button(frame, text=".", bg="green")
+                        position = (col, row)  # (x, y)
+                        button.bind("<Button-1>", lambda event,
+                                    arg=position: self.click(event, arg))
+                        button.grid(row=row, column=col)
+                        self.buttons[position] = button
                 if col == 0 and row > 0:
                     label = Label(frame, text=str(row))
                     label.grid(row=row, column=col)
@@ -27,10 +31,10 @@ class Board:
         print("clicked!")
         print(arg)
         self.buttons[arg].configure(bg="black")
+        return arg
 
 
 root = Tk()
 game = reversi_logic.Reversi()
-game.play_game()
-board = Board(root)
+board = Board(root, game.initial)
 root.mainloop()
