@@ -1,4 +1,4 @@
-"""Games, or Adversarial Search (Chapter 5)"""
+"""Adversarial Search. Logic for the Reversi game."""
 
 from collections import namedtuple
 import random
@@ -10,6 +10,7 @@ infinity = float('inf')
 GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 
 # ______________________________________________________________________________
+# Alphabeta cut-off search
 
 
 def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
@@ -63,28 +64,12 @@ def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
 # Players for Games
 
 
-# def query_player(game, state):
-#     """Make a move by querying standard input."""
-#     print("current state:")
-#     game.display(state)
-#     print("available moves: {}".format(game.actions(state)))
-#     print("")
-#     move_string = input('Your move? ')
-#     try:
-#         move = eval(move_string)
-#     except NameError:
-#         move = move_string
-#     return move
-
-
 def alphabeta_player(game, state):
-    # return alphabeta_search(state, game)
     return alphabeta_cutoff_search(state, game, d=4)
 
 
 # ______________________________________________________________________________
-# Some Sample Games
-
+# Sample Game API
 
 class Game:
     """A game is similar to a problem, but it has a utility for each
@@ -127,6 +112,9 @@ class Game:
         new_state = self.result(state, move)
         return new_state
 
+# ______________________________________________________________________________
+# Reversi Game
+
 
 class Reversi(Game):
     """Reversi game."""
@@ -134,14 +122,15 @@ class Reversi(Game):
     def __init__(self, height=8, width=8):
         self.height = height
         self.width = width
-        init_white_pos = [(4, 4), (5, 5)]
-        init_black_pos = [(4, 5), (5, 4)]
+        init_white_pos = [(4, 4), (5, 5)]  # Initial white pieces' position
+        init_black_pos = [(4, 5), (5, 4)]  # Initial black pieces' position
+        # Put initial pieces on board
         init_white_board = dict.fromkeys(init_white_pos, 'W')
         init_black_board = dict.fromkeys(init_black_pos, 'B')
         board = {**init_white_board, **init_black_board}
-        moves = self.get_valid_moves(board, 'B')
+        # Generate initial game state
         self.initial = GameState(
-            to_move='B', utility=0, board=board, moves=moves)
+            to_move='B', utility=0, board=board, moves=self.get_valid_moves(board, 'B'))
 
     # TODO: optimise and clarify
     def capture_enemy_in_dir(self, board, move, player, delta_x_y):
