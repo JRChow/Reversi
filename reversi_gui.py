@@ -32,6 +32,10 @@ class Board:
                 piece.grid(row=row, column=col)
 
     def click(self, event, move):
+        clicked_button = self.buttons[move]
+        if str(clicked_button['state']) == 'disabled':
+            print("clicked on a disabled button")
+            pass
         print("clicked!")
         print(move)
         self.buttons[move].configure(bg="black")
