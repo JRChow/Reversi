@@ -14,7 +14,7 @@ class Board:
                     label = Label(frame, text=str(row))
                     label.grid(row=row, column=col)
                 if row == 0 and col > 0:
-                    label = Label(frame, text=str(col))
+                    label = Label(frame, text=char(col + 96))
                     label.grid(row=row, column=col)
 
 
