@@ -11,8 +11,8 @@ class Board:
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
                     if (col, row) in initial_state.board:
-                        label = Label(frame, bg="black" if initial_state.board.get(
-                            col, row) == 'B' else 'white')
+                        button = Button(frame, bg="black" if initial_state.board.get(
+                            col, row) == 'B' else 'white', state=DISABLED)
                     else:
                         button = Button(frame, text=".", bg="green")
                         position = (col, row)  # (x, y)
