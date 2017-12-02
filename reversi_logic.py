@@ -221,13 +221,18 @@ class Reversi(Game):
         if len(moves) == 0:
             return +100 if player == 'B' else -100
         else:
-            return 0.4 * self.coin_parity(board) + 0.3 * self.mobility(board) + 0.3 * self.corners_captured(board)
+            return 0.05 * self.coin_parity(board) + \
+                   0.05 * self.mobility(board) + \
+                   0.6 * self.corners_captured(board) + \
+                   0.3 * self.corner_closeness(board)
 
     @staticmethod
     def coin_parity(board):
+        """Measures the difference in the number of pieces on board."""
         return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
 
     def mobility(self, board):
+        """Measures the difference in the mobility in terms of available choices."""
         black_moves_num = len(self.get_valid_moves(board, 'B'))
         white_moves_num = len(self.get_valid_moves(board, 'W'))
         if (black_moves_num + white_moves_num) != 0:
@@ -236,6 +241,7 @@ class Reversi(Game):
             return 0
 
     def corners_captured(self, board):
+        """Measures the difference in the number of corners captured."""
         corner = [board.get((1, 1)), board.get((1, self.height)), board.get((self.width, 1)),
                   board.get((self.width, self.height))]
         black_corner = corner.count('B')
@@ -245,4 +251,16 @@ class Reversi(Game):
         else:
             return 0
 
-            # def stability(self):  # TODO
+    def corner_closeness(self, board):
+        """Measures the difference in the number of pieces close to the corners."""
+        near_corner = [board.get((1, 2)), board.get((2, 1)), board.get((2, 2)),
+                       board.get((2, self.height)), board.get((1, self.height-1)), board.get((2, self.height-1)),
+                       board.get((self.width, 2)), board.get((self.width-1, 1)), board.get((self.width-1, 2)),
+                       board.get((self.width-1, self.height)), board.get((self.width, self.height-1)), board.get((self.width-1, self.height-1))]
+        black_near_corner = near_corner.count['B']
+        white_near_corner = near_corner.count['W']
+        if (black_near_corner + white_near_corner) != 0:
+            return 100 * (black_near_corner - white_near_corner) / (black_near_corner + white_near_corner)
+        else:
+            return 0
+
