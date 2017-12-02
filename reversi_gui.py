@@ -1,8 +1,9 @@
 from tkinter import *
 
 
-def click(event):
+def click(event, arg):
     print("clicked!")
+    print(arg)
 
 
 class Board:
@@ -13,7 +14,9 @@ class Board:
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
                     button = Button(frame, text=".")
-                    button.bind("<Button-1>", click)
+                    position = {"x": col, "y": row}
+                    button.bind("<Button-1>", lambda event,
+                                arg=data: click(event, arg))
                     button.grid(row=row, column=col)
                 if col == 0 and row > 0:
                     label = Label(frame, text=str(row))
