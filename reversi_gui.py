@@ -13,7 +13,7 @@ class Board:
                     button = Button(frame, text=".", bg="green")
                     position = (col, row)  # (x, y)
                     button.bind("<Button-1>", lambda event,
-                                arg=position: self.query_player(event, arg))
+                                arg=position: reversi_logic.query_player(event, arg))
                     button.grid(row=row, column=col)
                     self.buttons[position] = button
                 if col == 0 and row > 0:
@@ -27,12 +27,6 @@ class Board:
     #     print("clicked!")
     #     print(arg)
     #     self.buttons[arg].configure(bg="black")
-    def query_player(event, arg):
-        # print("clicked!")
-        # print(arg)
-        board.buttons[arg].configure(bg="black")
-        state = game.result(state, move)
-        return eval(arg)
 
 
 root = Tk()
