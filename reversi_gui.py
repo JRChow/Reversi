@@ -41,6 +41,9 @@ class Board:
     def update(self):
         print("Update!!")
         print("new state = " + str(self.state))
+        for pos, color in self.state.board.items():
+            self.buttons[pos].configure(
+                bg="black" if color == 'B' else "white")
         # # valid_moves = game.get_valid_moves(self.state.board, self.state.to_move)
         # for row in range(0, self.game.height + 1):
         #     for col in range(0, self.game.width + 1):
