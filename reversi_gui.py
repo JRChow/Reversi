@@ -13,6 +13,7 @@ class Board:
                     if (col, row) in initial_state.board:
                         button = Button(frame, bg="black" if initial_state.board.get(
                             col, row) == 'B' else 'white', state=DISABLED)
+                        button.grid(row=row, column=col)
                     else:
                         button = Button(frame, text=".", bg="green")
                         position = (col, row)  # (x, y)
