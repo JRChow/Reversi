@@ -37,15 +37,18 @@ class Board:
         self.buttons[move].configure(bg="black")
         self.state = self.game.play_game(move, self.state)
         self.update()
+
         ai_move = reversi_logic.alphabeta_player(self.game, self.state)
         self.state = self.game.play_game(ai_move, self.state)
-        print("NEW STATE === " + str(self.state))
+        self.valid_moves = game.get_valid_moves(
+            self.state.board, self.state.to_move)
+        self.update()
 
     def update(self):
         print("Update!!")
-        print("new state = " + str(self.state))
         for pos in self.valid_moves:
-            self.buttons[pos].configure(bg="green")
+            self.buttons[pos].configure(
+                bg="green" if self.state.to_move == 'W' else "lawn green")
         for pos, color in self.state.board.items():
             self.buttons[pos].configure(
                 bg="black" if color == 'B' else "white")
