@@ -37,7 +37,8 @@ class Board:
         self.buttons[move].configure(bg="black")
         self.state = self.game.play_game(move, self.state)
         self.update()
-        print("NEW MOVE == " + str(reversi_logic.alphabeta_player(self.state)))
+        print("NEW MOVE == " +
+              str(reversi_logic.alphabeta_player(self.game, self.state)))
 
     def update(self):
         print("Update!!")
