@@ -51,6 +51,54 @@ def alphabeta_search(state, game):
             best_action = a
     return best_action
 
+
+def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
+    """Search game to determine best action; use alpha-beta pruning.
+    This version cuts off search and uses an evaluation function."""
+
+    player = game.to_move(state)
+
+    # Functions used by alphabeta
+    def max_value(state, alpha, beta, depth):
+        if cutoff_test(state, depth):
+            return eval_fn(state)
+        v = -infinity
+        for a in game.actions(state):
+            v = max(v, min_value(game.result(state, a),
+                                 alpha, beta, depth + 1))
+            if v >= beta:
+                return v
+            alpha = max(alpha, v)
+        return v
+
+    def min_value(state, alpha, beta, depth):
+        if cutoff_test(state, depth):
+            return eval_fn(state)
+        v = infinity
+        for a in game.actions(state):
+            v = min(v, max_value(game.result(state, a),
+                                 alpha, beta, depth + 1))
+            if v <= alpha:
+                return v
+            beta = min(beta, v)
+        return v
+
+    # Body of alphabeta_cutoff_search starts here:
+    # The default test cuts off at depth d or at a terminal state
+    cutoff_test = (cutoff_test or
+                   (lambda state, depth: depth > d or
+                    game.terminal_test(state)))
+    eval_fn = eval_fn or (lambda state: game.utility(state, player))
+    best_score = -infinity
+    beta = infinity
+    best_action = None
+    for a in game.actions(state):
+        v = min_value(game.result(state, a), best_score, beta, 1)
+        if v > best_score:
+            best_score = v
+            best_action = a
+    return best_action
+
 # ______________________________________________________________________________
 # Players for Games
 
@@ -76,7 +124,10 @@ def random_player(game, state):
 
 
 def alphabeta_player(game, state):
-    return alphabeta_search(state, game)
+    # return alphabeta_search(state, game)
+    game.display(state)
+    print()
+    return alphabeta_cutoff_search(state, game, d=4)
 
 
 # ______________________________________________________________________________
@@ -209,7 +260,7 @@ class Reversi(Game):
         return state.utility if player == 'B' else -state.utility
 
     def terminal_test(self, state):
-        return state.utility != 0 or len(state.moves) == 0
+        return len(state.moves) == 0
 
     def display(self, state):
         board = state.board
@@ -231,8 +282,10 @@ class Reversi(Game):
             print()
 
     def compute_utility(self, board, move, player):
-        # TODO
-        return 0
+        if (len(self.get_valid_moves(board, player)) == 0):
+            return +100 if player == 'B' else -100
+        else:
+            return 0.4 * self.coin_parity(board) + 0.3 * self.mobility(board) + 0.3 * self.corners_captured(board)
 
     def coin_parity(self, board):
         return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
@@ -258,8 +311,8 @@ class Reversi(Game):
         else:
             return 0
 
-    def stability(self):  # TODO
+    # def stability(self):  # TODO
 
 
 game = Reversi()
-game.play_game(query_player, random_player)
+game.play_game(query_player, alphabeta_player)
