@@ -257,8 +257,8 @@ class Reversi(Game):
                        board.get((2, self.height)), board.get((1, self.height-1)), board.get((2, self.height-1)),
                        board.get((self.width, 2)), board.get((self.width-1, 1)), board.get((self.width-1, 2)),
                        board.get((self.width-1, self.height)), board.get((self.width, self.height-1)), board.get((self.width-1, self.height-1))]
-        black_near_corner = near_corner.count['B']
-        white_near_corner = near_corner.count['W']
+        black_near_corner = near_corner.count('B')
+        white_near_corner = near_corner.count('W')
         if (black_near_corner + white_near_corner) != 0:
             return 100 * (black_near_corner - white_near_corner) / (black_near_corner + white_near_corner)
         else:
