@@ -9,7 +9,7 @@ class Board:
         self.buttons = {}
         self.game = game
         self.state = game.initial
-        valid_moves = game.get_valid_moves(
+        self.valid_moves = game.get_valid_moves(
             self.state.board, self.state.to_move)
         for row in range(0, 8 + 1):  # TODO: remove hard-code
             for col in range(0, 8 + 1):  # TODO: remove hard-code
@@ -18,7 +18,7 @@ class Board:
                     if (col, row) in self.state.board:
                         piece = Button(frame, bg="black" if self.state.board.get(
                             (col, row)) == 'B' else 'white', state=DISABLED)
-                    elif (col, row) in valid_moves:
+                    elif (col, row) in self.valid_moves:
                         piece = Button(frame, bg="lawn green")
                         piece.bind("<Button-1>", lambda event,
                                    move=(col, row): self.click(event, move))
@@ -46,6 +46,8 @@ class Board:
         for pos, color in self.state.board.items():
             self.buttons[pos].configure(
                 bg="black" if color == 'B' else "white")
+        for pos in valid_moves:
+            self.buttons[pos].configure(bg="green")
         # # valid_moves = game.get_valid_moves(self.state.board, self.state.to_move)
         # for row in range(0, self.game.height + 1):
         #     for col in range(0, self.game.width + 1):
