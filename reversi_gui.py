@@ -11,8 +11,8 @@ class Board:
         self.buttons = {}
         self.game = game
         self.state = game.initial
-        self.valid_moves = game.get_valid_moves(
-            self.state.board, self.state.to_move)
+        # self.valid_moves = game.get_valid_moves(
+        # self.state.board, self.state.to_move)
         for row in range(0, self.game.height + 1):
             for col in range(0, self.game.width + 1):
                 piece = Label(frame)
@@ -20,7 +20,7 @@ class Board:
                     if (col, row) in self.state.board:  # Black and white ones
                         piece = Button(frame, bg="black" if self.state.board.get(
                             (col, row)) == 'B' else 'white', state=DISABLED)
-                    elif (col, row) in self.valid_moves:  # Valid moves
+                    elif (col, row) in self.state.moves:  # Valid moves
                         piece = Button(frame, bg="lawn green", state=NORMAL)
                     else:  # Background
                         piece = Button(frame, bg="green", state=DISABLED)
@@ -48,14 +48,19 @@ class Board:
         self.update()
 
     def update(self):
-        # Update valid moves
-        for pos in self.state.moves:  # Valid moves
-            self.buttons[pos].configure(
-                bg="green" if self.state.to_move == 'W' else "lawn green",
-                state=NORMAL if self.state.to_move == 'B' else DISABLED)
-        for pos, color in self.state.board.items():  # Black and white
-            self.buttons[pos].configure(
-                bg="black" if color == 'B' else "white", state=DISABLED)
+        for row in range(1, self.game.height + 1):
+            for col in range(1, self.game.width + 1):
+                pos = (col, row)
+                if pos in self.state.board:  # Black and white
+                    color = self.state.board.get(pos)
+                    self.buttons[pos].configure(
+                        bg="black" if color == 'B' else "white", state=DISABLED)
+                elif pos in self.state.moves:  # Valid moves
+                    self.buttons[pos].configure(
+                        bg="green" if self.state.to_move == 'W' else "lawn green",
+                        state=NORMAL if self.state.to_move == 'B' else DISABLED)
+                else:  # Background
+                    self.buttons[pos].configure(bg="green", state=DISABLED)
         self.master.update()  # Refresh UI
 
 
