@@ -181,7 +181,7 @@ class Game:
         state = self.initial
         while True:
             for player in players:
-                move = player(event, arg)
+                move = player(self, state)
                 state = self.result(state, move)
                 if self.terminal_test(state):
                     self.display(state)
