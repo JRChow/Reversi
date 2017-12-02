@@ -18,17 +18,16 @@ class Board:
                         piece = Button(frame, bg="black" if initial_state.board.get(
                             (col, row)) == 'B' else 'white', state=DISABLED)
                     elif (col, row) in valid_moves:
-                        piece = Button(frame, text=".", bg="lawn green")
+                        piece = Button(frame, bg="lawn green")
                         piece.bind("<Button-1>", lambda event,
                                    arg=(col, row): self.click(event, arg))
                     else:
-                        piece = Button(frame, text=".",
-                                       bg="green", state=DISABLED)
-                        self.buttons[(col, row)] = piece
+                        piece = Button(frame, bg="green", state=DISABLED)
                 if col == 0 and row > 0:
                     piece = Label(frame, text=str(row))
                 if row == 0 and col > 0:
                     piece = Label(frame, text=chr(col + 96))
+                self.buttons[(col, row)] = piece
                 piece.grid(row=row, column=col)
 
     def click(self, event, arg):
