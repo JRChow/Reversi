@@ -156,6 +156,7 @@ class Reversi(Game):
             x, y = x + delta_x, y + delta_y
         if board.get((x, y)) != player:
             del enemy_list_0[:]
+        # Opposite direction
         x, y = move
         x, y = x - delta_x, y - delta_y
         enemy_list_1 = []
