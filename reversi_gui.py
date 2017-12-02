@@ -7,6 +7,7 @@ class Board:
     def __init__(self, master, game):
         frame = Frame(master)
         frame.pack()
+        self.master = master
         self.buttons = {}
         self.game = game
         self.state = game.initial
@@ -42,7 +43,7 @@ class Board:
         self.state = self.game.play_game(move, self.state)
         self.update()
 
-        master.update()
+        self.master.update()
 
         ai_move = reversi_logic.alphabeta_player(self.game, self.state)
         self.state = self.game.play_game(ai_move, self.state)
