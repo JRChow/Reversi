@@ -9,11 +9,13 @@ class Board:
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 if col > 0 and row > 0:
                     button = Button(frame, text=".")
+                    button.grid(row=row, column=col)
                 if col == 0:
-                    button = Button(frame, text=str(row))
+                    label = Label(frame, text=str(row))
+                    label.grid(row=row, column=col)
                 if row == 0:
-                    button = Button(frame, text=str(col))
-                button.grid(row=row, column=col)
+                    label = Label(frame, text=str(col))
+                    label.grid(row=row, column=col)
 
 
 root = Tk()
