@@ -1,5 +1,5 @@
 from tkinter import *
-from reversi_logic import *
+import reversi_logic
 
 
 class Board:
@@ -36,7 +36,7 @@ class Board:
 
 
 root = Tk()
-game = Reversi()
+game = reversi_logic.Reversi()
 # game.play_game(query_player)
 board = Board(root)
 root.mainloop()
