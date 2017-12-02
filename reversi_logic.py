@@ -77,10 +77,10 @@ class Game:
     def __repr__(self):
         return '<{}>'.format(self.__class__.__name__)
 
-    def play_game(self, *players):
+    def play_game(self, move, state):
         """Play an n-person, move-alternating game."""
-        state = self.initial
-
+        state = self.result(move, state)
+        return state
         # while True:
         #     for player in players:
         #         move = player(self, state)
