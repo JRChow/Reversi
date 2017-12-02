@@ -46,7 +46,7 @@ class Board:
         for pos, color in self.state.board.items():
             self.buttons[pos].configure(
                 bg="black" if color == 'B' else "white")
-        for pos in valid_moves:
+        for pos in self.valid_moves:
             self.buttons[pos].configure(bg="green")
         # # valid_moves = game.get_valid_moves(self.state.board, self.state.to_move)
         # for row in range(0, self.game.height + 1):
