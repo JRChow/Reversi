@@ -13,8 +13,8 @@ class Board:
         self.state = game.initial
         self.valid_moves = game.get_valid_moves(
             self.state.board, self.state.to_move)
-        for row in range(0, 8 + 1):  # TODO: remove hard-code
-            for col in range(0, 8 + 1):  # TODO: remove hard-code
+        for row in range(0, self.game.height + 1):
+            for col in range(0, self.game.width + 1):
                 piece = Label(frame)
                 if col > 0 and row > 0:
                     if (col, row) in self.state.board:  # Black and white ones
@@ -35,17 +35,16 @@ class Board:
 
     def click(self, event, move):
         clicked_button = self.buttons[move]
+        # If clicked on a disabled button, just ignore it.
         if str(clicked_button['state']) == 'disabled':
             return
-        print("clicked!")
-        print(move)
-        clicked_button.configure(bg="black")
-        self.state = self.game.play_game(move, self.state)
+        self.state = self.game.result(
+            self.state, move)  # Player makes move, update state
         self.update()
 
         ai_move = reversi_logic.alphabeta_player(self.game, self.state)
-        self.state = self.game.play_game(ai_move, self.state)
-
+        # AI makes move, update state
+        self.state = self.game.result(self.state, ai_move)
         self.update()
 
     def update(self):
@@ -59,7 +58,7 @@ class Board:
         for pos, color in self.state.board.items():  # Black and white
             self.buttons[pos].configure(
                 bg="black" if color == 'B' else "white", state=DISABLED)
-        self.master.update()
+        self.master.update()  # Refresh UI
 
 
 root = Tk()

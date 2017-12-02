@@ -124,16 +124,8 @@ class Game:
 
     def play_game(self, move, state):
         """Play an n-person, move-alternating game."""
-        # print(state)
         new_state = self.result(state, move)
         return new_state
-        # while True:
-        #     for player in players:
-        #         move = player(self, state)
-        #         state = self.result(state, move)
-        #         if self.terminal_test(state):
-        #             self.display(state)
-        #             return self.utility(state, self.to_move(self.initial))
 
 
 class Reversi(Game):
@@ -265,7 +257,3 @@ class Reversi(Game):
             return 0
 
     # def stability(self):  # TODO
-
-
-# game = Reversi()
-# game.play_game(query_player, alphabeta_player)
