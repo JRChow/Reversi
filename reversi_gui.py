@@ -1,5 +1,5 @@
 from tkinter import *
-from reversi import *
+from reversi_logic import *
 
 
 class Board:
