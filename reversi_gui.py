@@ -35,12 +35,32 @@ class Board:
         print("clicked!")
         print(move)
         self.buttons[move].configure(bg="black")
-        new_state = self.game.play_game(move, self.state)
-        self.update(new_state)
+        self.state = self.game.play_game(move, self.state)
+        self.update()
 
-    def update(self, state):
+    def update(self):
         print("Update!!")
-        print("new state = " + str(state))
+        print("new state = " + str(self.state))
+        # # valid_moves = game.get_valid_moves(self.state.board, self.state.to_move)
+        # for row in range(0, self.game.height + 1):
+        #     for col in range(0, self.game.width + 1):
+        #         piece = Label(frame)
+        #         if col > 0 and row > 0:
+        #             if (col, row) in self.state.board:
+        #                 piece = Button(frame, bg="black" if self.state.board.get(
+        #                     (col, row)) == 'B' else 'white', state=DISABLED)
+        #             elif (col, row) in valid_moves:
+        #                 piece = Button(frame, bg="lawn green")
+        #                 piece.bind("<Button-1>", lambda event,
+        #                            move=(col, row): self.click(event, move))
+        #             else:
+        #                 piece = Button(frame, bg="green", state=DISABLED)
+        #         if col == 0 and row > 0:
+        #             piece = Label(frame, text=str(row))
+        #         if row == 0 and col > 0:
+        #             piece = Label(frame, text=chr(col + 96))
+        #         self.buttons[(col, row)] = piece
+        #         piece.grid(row=row, column=col)
 
 
 root = Tk()
