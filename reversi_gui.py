@@ -34,11 +34,10 @@ class Board:
     def click(self, event, move):
         clicked_button = self.buttons[move]
         if str(clicked_button['state']) == 'disabled':
-            print("clicked on a disabled button")
-            pass
+            return
         print("clicked!")
         print(move)
-        self.buttons[move].configure(bg="black")
+        clicked_button.configure(bg="black")
         self.state = self.game.play_game(move, self.state)
         self.update()
 
