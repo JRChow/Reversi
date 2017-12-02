@@ -1,16 +1,13 @@
 """Adversarial Search. Logic for the Reversi game."""
 
 from collections import namedtuple
-import random
-
-
-from utils import argmax
 
 infinity = float('inf')
 GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 
+
 # ______________________________________________________________________________
-# Alphabeta cut-off search
+# Alpha-beta cut-off search
 
 
 def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
@@ -19,7 +16,7 @@ def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
 
     player = game.to_move(state)
 
-    # Functions used by alphabeta
+    # Functions used by alpha-beta
     def max_value(state, alpha, beta, depth):
         if cutoff_test(state, depth):
             return eval_fn(state)
@@ -48,7 +45,7 @@ def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
     # The default test cuts off at depth d or at a terminal state
     cutoff_test = (cutoff_test or
                    (lambda state, depth: depth > d or
-                    game.terminal_test(state)))
+                                         game.terminal_test(state)))
     eval_fn = eval_fn or (lambda state: game.utility(state, player))
     best_score = -infinity
     beta = infinity
@@ -59,6 +56,7 @@ def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
             best_score = v
             best_action = a
     return best_action
+
 
 # ______________________________________________________________________________
 # Players for Games
@@ -112,6 +110,7 @@ class Game:
         new_state = self.result(state, move)
         return new_state
 
+
 # ______________________________________________________________________________
 # Reversi Game
 
@@ -132,8 +131,15 @@ class Reversi(Game):
         self.initial = GameState(
             to_move='B', utility=0, board=board, moves=self.get_valid_moves(board, 'B'))
 
-    # TODO: optimise and clarify
-    def capture_enemy_in_dir(self, board, move, player, delta_x_y):
+    def enemy_captured_by_move(self, board, move, player):
+        """Returns a list of enemies captured by this move."""
+        return self.capture_enemy_in_dir(board, move, player, (0, 1)) \
+               + self.capture_enemy_in_dir(board, move, player, (1, 0)) \
+               + self.capture_enemy_in_dir(board, move, player, (1, -1)) \
+               + self.capture_enemy_in_dir(board, move, player, (1, 1))
+
+    @staticmethod
+    def capture_enemy_in_dir(board, move, player, delta_x_y):
         """Returns true if any enemy is captured in the specified direction."""
         enemy = 'B' if player == 'W' else 'W'
         (delta_x, delta_y) = delta_x_y
@@ -156,18 +162,10 @@ class Reversi(Game):
             del enemy_list_1[:]
         return enemy_list_0 + enemy_list_1
 
-    # TODO: optimise and clarify
-    def enemy_captured_by_move(self, board, move, player):
-        return self.capture_enemy_in_dir(board, move, player, (0, 1)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, 0)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, -1)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, 1))
-
     def actions(self, state):
         """Legal moves."""
         return state.moves
 
-    # TODO: optimise and clarify
     def get_valid_moves(self, board, player):
         """Returns a list of valid moves for the player judging from the board."""
         return [(x, y) for x in range(1, self.width + 1)
@@ -176,21 +174,22 @@ class Reversi(Game):
                 self.enemy_captured_by_move(board, (x, y), player)]
 
     def result(self, state, move):
-        # Invalid move
+        """Returns the resulting state from applying move."""
+        # Ignore invalid move.
         if move not in state.moves:
             return state
         opponent_player = 'W' if state.to_move == 'B' else 'B'
         board = state.board.copy()
         board[move] = state.to_move  # Show the move on the board
-        # Flip enemy
+        # Flip enemies captured
         for enemy in self.enemy_captured_by_move(board, move, state.to_move):
             board[enemy] = state.to_move
-        # Regenerate valid moves
-        moves = self.get_valid_moves(board, opponent_player)
+        # Recalculate valid moves
+        valid_moves = self.get_valid_moves(board, opponent_player)
         return GameState(to_move=opponent_player,
                          utility=self.compute_utility(
-                             board, move, state.to_move),
-                         board=board, moves=moves)
+                             board, valid_moves, state.to_move),
+                         board=board, moves=valid_moves)
 
     def utility(self, state, player):
         return state.utility if player == 'B' else -state.utility
@@ -199,6 +198,7 @@ class Reversi(Game):
         return len(state.moves) == 0
 
     def display(self, state):
+        """Text output."""
         board = state.board
         print('coin_parity = ' + str(self.coin_parity(board)))
         print('mobility = ' + str(self.mobility(board)))
@@ -207,22 +207,24 @@ class Reversi(Game):
             for x in range(0, self.width + 1):
                 if x > 0 and y > 0:
                     if (x, y) in state.moves:
-                        print(board.get((x, y), '_',), end=' ')
+                        print(board.get((x, y), '_', ), end=' ')
                     else:
-                        print(board.get((x, y), '.',), end=' ')
+                        print(board.get((x, y), '.', ), end=' ')
                 if x == 0:
                     print(y, end=' ')
                 if y == 0:
                     print(x, end=' ')
             print()
 
-    def compute_utility(self, board, move, player):
-        if (len(self.get_valid_moves(board, player)) == 0):
+    def compute_utility(self, board, moves, player):
+        # Game ends.
+        if len(moves) == 0:
             return +100 if player == 'B' else -100
         else:
             return 0.4 * self.coin_parity(board) + 0.3 * self.mobility(board) + 0.3 * self.corners_captured(board)
 
-    def coin_parity(self, board):
+    @staticmethod
+    def coin_parity(board):
         return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
 
     def mobility(self, board):
@@ -234,11 +236,8 @@ class Reversi(Game):
             return 0
 
     def corners_captured(self, board):
-        corner = []
-        corner.append(board.get((1, 1)))
-        corner.append(board.get((1, self.height)))
-        corner.append(board.get((self.width, 1)))
-        corner.append(board.get((self.width, self.height)))
+        corner = [board.get((1, 1)), board.get((1, self.height)), board.get((self.width, 1)),
+                  board.get((self.width, self.height))]
         black_corner = corner.count('B')
         white_corner = corner.count('W')
         if (black_corner + white_corner) != 0:
@@ -246,4 +245,4 @@ class Reversi(Game):
         else:
             return 0
 
-    # def stability(self):  # TODO
+            # def stability(self):  # TODO
