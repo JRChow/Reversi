@@ -211,7 +211,10 @@ class Reversi(Game):
         for y in range(0, self.height + 1):
             for x in range(0, self.width + 1):
                 if x > 0 and y > 0:
-                    print(board.get((x, y), '.',), end=' ')
+                    if (x, y) in state.moves:
+                        print(board.get((x, y), '_',), end=' ')
+                    else:
+                        print(board.get((x, y), '.',), end=' ')
                 if x == 0:
                     if y > 0:
                         print(y, end=' ')
