@@ -10,10 +10,10 @@ class Board:
                 if col > 0 and row > 0:
                     button = Button(frame, text=".")
                     button.grid(row=row, column=col)
-                if col == 0:
+                if col == 0 and row > 0:
                     label = Label(frame, text=str(row))
                     label.grid(row=row, column=col)
-                if row == 0:
+                if row == 0 and col > 0:
                     label = Label(frame, text=str(col))
                     label.grid(row=row, column=col)
 
