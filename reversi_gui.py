@@ -46,7 +46,7 @@ class Board:
         # AI makes move, update state
         self.state = self.game.result(self.state, ai_move)
         self.update()
-        self.buttons[ai_move].configure(bg="mint cream")
+        self.buttons[ai_move].configure(bg="light cyan")
         self.master.update()  # Refresh UI
 
     def update(self):
