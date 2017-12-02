@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import reversi_logic
 import time
 
