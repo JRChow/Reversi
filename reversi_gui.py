@@ -49,9 +49,7 @@ class Board:
 
     def update(self):
         # Update valid moves
-        self.valid_moves = game.get_valid_moves(
-            self.state.board, self.state.to_move)
-        for pos in self.valid_moves:  # Valid moves
+        for pos in self.state.moves:  # Valid moves
             self.buttons[pos].configure(
                 bg="green" if self.state.to_move == 'W' else "lawn green",
                 state=NORMAL if self.state.to_move == 'B' else DISABLED)
