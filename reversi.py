@@ -68,10 +68,12 @@ def query_player(game, state):
         move = move_string
     return move
 
+
 def random_player(game, state):
     """A player that chooses a legal move at random."""
     game.display(state)
     return random.choice(game.actions(state))
+
 
 def alphabeta_player(game, state):
     return alphabeta_search(state, game)
@@ -141,7 +143,8 @@ class Reversi(Game):
         init_black_board = dict.fromkeys(init_black_pos, 'B')
         board = {**init_white_board, **init_black_board}
         moves = self.get_valid_moves(board, 'B')
-        self.initial = GameState(to_move='B', utility=0, board=board, moves=moves)
+        self.initial = GameState(
+            to_move='B', utility=0, board=board, moves=moves)
 
     # TODO: optimise and clarify
     def capture_enemy_in_dir(self, board, move, player, delta_x_y):
@@ -168,7 +171,7 @@ class Reversi(Game):
 
     # TODO: optimise and clarify
     def enemy_captured_by_move(self, board, move, player):
-        return self.capture_enemy_in_dir(board, move, player, (0, 1))  \
+        return self.capture_enemy_in_dir(board, move, player, (0, 1)) \
             + self.capture_enemy_in_dir(board, move, player, (1, 0)) \
             + self.capture_enemy_in_dir(board, move, player, (1, -1)) \
             + self.capture_enemy_in_dir(board, move, player, (1, 1))
@@ -179,10 +182,11 @@ class Reversi(Game):
 
     # TODO: optimise and clarify
     def get_valid_moves(self, board, player):
-        return [(x, y) for x in range(1, self.width+1) 
-                       for y in range(1, self.height+1) 
-                        if (x, y) not in board.keys() and
-                            self.enemy_captured_by_move(board, (x, y), player)]
+        """Returns a list of valid moves for the player judging from the board."""
+        return [(x, y) for x in range(1, self.width + 1)
+                for y in range(1, self.height + 1)
+                if (x, y) not in board.keys() and
+                self.enemy_captured_by_move(board, (x, y), player)]
 
     def result(self, state, move):
         # Invalid move
@@ -197,7 +201,8 @@ class Reversi(Game):
         # Regenerate valid moves
         moves = self.get_valid_moves(board, opponent_player)
         return GameState(to_move=opponent_player,
-                         utility=self.compute_utility(board, move, state.to_move),
+                         utility=self.compute_utility(
+                             board, move, state.to_move),
                          board=board, moves=moves)
 
     def utility(self, state, player):
@@ -208,6 +213,9 @@ class Reversi(Game):
 
     def display(self, state):
         board = state.board
+        print('coin_parity = ' + str(self.coin_parity(board)))
+        print('mobility = ' + str(self.mobility(board)))
+        print('corners_captured = ' + str(self.corners_captured(board)))
         for y in range(0, self.height + 1):
             for x in range(0, self.width + 1):
                 if x > 0 and y > 0:
@@ -219,15 +227,39 @@ class Reversi(Game):
                     if y > 0:
                         print(y, end=' ')
                 if y == 0:
-                        print(x, end=' ')
+                    print(x, end=' ')
             print()
 
     def compute_utility(self, board, move, player):
-        # TODO 
+        # TODO
         return 0
 
     def coin_parity(self, board):
-        return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values()))/len(board)
+        return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
+
+    def mobility(self, board):
+        black_moves_num = len(self.get_valid_moves(board, 'B'))
+        white_moves_num = len(self.get_valid_moves(board, 'W'))
+        if (black_moves_num + white_moves_num) != 0:
+            return 100 * (black_moves_num - white_moves_num) / (black_moves_num + white_moves_num)
+        else:
+            return 0
+
+    def corners_captured(self, board):
+        corner = []
+        corner.append(board.get((1, 1)))
+        corner.append(board.get((1, self.height)))
+        corner.append(board.get((self.width, 1)))
+        corner.append(board.get((self.width, self.height)))
+        black_corner = corner.count('B')
+        white_corner = corner.count('W')
+        if (black_corner + white_corner) != 0:
+            return 100 * (black_corner - white_corner) / (black_corner + white_corner)
+        else:
+            return 0
+
+    def stability(self):  # TODO
+
 
 game = Reversi()
 game.play_game(query_player, random_player)
