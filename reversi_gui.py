@@ -22,7 +22,7 @@ class Board:
                     label = Label(frame, text=chr(col + 96))
                     label.grid(row=row, column=col)
 
-    def click(event, arg):
+    def click(self, event, arg):
         print("clicked!")
         print(arg)
 
