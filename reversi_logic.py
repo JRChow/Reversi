@@ -29,7 +29,6 @@ GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 def query_player(event, arg):
     # print("clicked!")
     # print(arg)
-    board.buttons[arg].configure(bg="black")
     state = game.result(state, move)
     return eval(arg)
 
