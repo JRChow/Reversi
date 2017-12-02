@@ -66,6 +66,7 @@ class Board:
 
 root = Tk()
 root.title('Reversi')
+root.geometry("500x500")
 game = reversi_logic.Reversi()
 board = Board(root, game)
 root.mainloop()
