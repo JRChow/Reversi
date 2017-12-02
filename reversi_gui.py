@@ -16,7 +16,7 @@ class Board:
                     button = Button(frame, text=".")
                     position = {"x": col, "y": row}
                     button.bind("<Button-1>", lambda event,
-                                arg=data: click(event, arg))
+                                arg=position: click(event, arg))
                     button.grid(row=row, column=col)
                 if col == 0 and row > 0:
                     label = Label(frame, text=str(row))
