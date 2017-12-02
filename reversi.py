@@ -101,7 +101,6 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
 # ______________________________________________________________________________
 # Players for Games
 
-
 # def query_player(game, state):
 #     """Make a move by querying standard input."""
 #     print("current state:")
@@ -115,10 +114,12 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
 #         move = move_string
 #     return move
 
+
 def query_player(event, arg):
     print("clicked!")
     print(arg)
-    self.buttons[arg].configure(bg="black")
+    board.buttons[arg].configure(bg="black")
+    return eval(arg)
 
 
 def random_player(game, state):
