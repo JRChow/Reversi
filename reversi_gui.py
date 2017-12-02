@@ -7,20 +7,21 @@ class Board:
         frame = Frame(master)
         frame.pack()
         self.buttons = {}
-        initial_state = game.initial
+        self.game = game
+        self.state = game.initial
         valid_moves = game.get_valid_moves(
-            initial_state.board, initial_state.to_move)
+            self.state.board, self.state.to_move)
         for row in range(0, 8 + 1):  # TODO: remove hard-code
             for col in range(0, 8 + 1):  # TODO: remove hard-code
                 piece = Label(frame)
                 if col > 0 and row > 0:
-                    if (col, row) in initial_state.board:
-                        piece = Button(frame, bg="black" if initial_state.board.get(
+                    if (col, row) in self.state.board:
+                        piece = Button(frame, bg="black" if self.state.board.get(
                             (col, row)) == 'B' else 'white', state=DISABLED)
                     elif (col, row) in valid_moves:
                         piece = Button(frame, bg="lawn green")
                         piece.bind("<Button-1>", lambda event,
-                                   arg=(col, row): self.click(event, arg))
+                                   move=(col, row): self.click(event, move))
                     else:
                         piece = Button(frame, bg="green", state=DISABLED)
                 if col == 0 and row > 0:
@@ -30,13 +31,15 @@ class Board:
                 self.buttons[(col, row)] = piece
                 piece.grid(row=row, column=col)
 
-    def click(self, event, arg):
+    def click(self, event, move):
         print("clicked!")
-        print(arg)
-        self.buttons[arg].configure(bg="black")
-        return arg
+        print(move)
+        self.buttons[move].configure(bg="black")
+        new_state = self.game.play_game(move, self.state)
+        self.update(new_state)
 
-    # def update(self, state):
+    def update(self, state):
+        print("Update!!")
 
 
 root = Tk()
