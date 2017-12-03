@@ -41,7 +41,7 @@ The object of the game is to own more pieces than your opponent when the game is
 
 The game is started in the position shown below on a reversi board consisting of 64 squares in an 8x8 grid. 
 
-![start](/Users/Jerome/Desktop/Reversi/img/start.png)
+![start](/img/start.png)
 
 ### Playing the Game
 
