@@ -82,13 +82,29 @@ Note the depth limit can be modified at line 66 in `reversi_logic.py`.
 
 ### Heuristics Applied
 
-#### Coin Parity
+#### Coin Difference
 
-#### Mobility
+Apparently, for a player, the more coins he has (and the fewer coins his opponent has), the better. 
 
-#### Corners Captured
+![start](./img/coin_diff.png)
+
+But note that the weight assigned to this heuristic should not be heavy, because the difference in coins fluctuates intensely and frequently, due to the nature of the game, and only in the very end does the difference in coins matters. 
+
+#### Choice Difference
+
+This heuristic aims to increase one's flexibility in terms of choices and constrain the opponent's choices of valid moves.
+
+![start](./img/choice_diff.png)
+
+#### Corner Difference
+
+From the experience of playing the game, we learned that corners are *crucial* because once a corner is captured, it cannot be flipped. Furthermore, a player can build up stable coins around the corner. This is how one usually wins. Thus, *this heuristic should receive a **heavy weighting**.*
+
+![start](./img/corner_diff.png)
 
 ### Evaluation Function
+
+
 
 ## Future Releases
 
@@ -101,3 +117,5 @@ Note the depth limit can be modified at line 66 in `reversi_logic.py`.
 http://www.flyordie.com/games/help/reversi/en/games_rules_reversi.html
 
 AIMA
+
+https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-reversiothello/
