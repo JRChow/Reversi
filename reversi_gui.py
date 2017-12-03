@@ -82,6 +82,13 @@ class Board:
 if __name__ == "__main__":
     root = Tk()
     root.title('Reversi')
+
+    def on_closing():
+        if messagebox.askokcancel("Quit", "Do you want to quit?"):
+            root.destroy()
+
+    root.protocol("WM_DELETE_WINDOW", on_closing)
+
     game = logic.Reversi()
     board = Board(root, game)
     root.mainloop()
