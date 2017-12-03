@@ -44,6 +44,10 @@ class Board:
         # Player makes move, update state
         self.state = self.game.result(self.state, move)
         self.update()  # Update UI
+        # Terminal test for player
+        if self.game.terminal_test(self.state):
+            messagebox.showinfo(
+                "Game Ends", "You Win!" if self.state.utility == +100 else "You lose!")
 
         # AI makes move
         ai_move = logic.alphabeta_player(self.game, self.state)
@@ -53,6 +57,11 @@ class Board:
         # Latest move made by AI has a different color
         self.buttons[ai_move].configure(bg="light cyan")
         self.master.update()  # Refresh UI
+
+        # Terminal test for AI
+        if self.game.terminal_test(self.state):
+            messagebox.showinfo(
+                "Game Ends", "You Win!" if self.state.utility == +100 else "You lose!")
 
     def update(self):
         for row in range(1, self.game.height + 1):
@@ -69,9 +78,6 @@ class Board:
                 else:  # Background
                     self.buttons[pos].configure(bg="green", state=DISABLED)
         self.master.update()  # Refresh UI
-        if self.game.terminal_test(self.state):
-            messagebox.showinfo(
-                "Game Ends", "You Win!" if self.state.utility == +100 else "You lose!")
 
 if __name__ == "__main__":
     root = Tk()

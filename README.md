@@ -76,7 +76,9 @@ The AI employs the $$\alpha-\beta$$ pruning algorithm described in Chapter 5 of 
 
 To limit the time the AI spends on searching, a **cutoff test** is introduced. So when it is appropriate to cut off the search, it'll call the heuristic function to choose a move.
 
-The specific cutoff test for this application is easy: ***the depth of the search is limited to 5 levels.*** In other words, *the number of look ahead steps is 5* by default. Note this can be modified at line 66 in `reversi_logic.py`.
+The specific cutoff test for this application is easy: ***the depth of the search is limited to 5 levels.*** In other words, ***the number of look ahead steps is 5*** by default. If the depth from the current state to the terminal state is less than 5, then the cutoff test is simply the terminal test.
+
+Note the depth limit can be modified at line 66 in `reversi_logic.py`.
 
 ### Heuristics Applied
 
@@ -85,8 +87,6 @@ The specific cutoff test for this application is easy: ***the depth of the searc
 #### Mobility
 
 #### Corners Captured
-
-#### Corner Closeness
 
 ### Evaluation Function
 

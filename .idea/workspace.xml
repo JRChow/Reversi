@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9d42625e-238a-4f67-a791-b5f3af1e0c35" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reversi_logic.py" afterPath="$PROJECT_DIR$/reversi_logic.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reversi_gui.py" afterPath="$PROJECT_DIR$/reversi_gui.py" />
     </list>
     <ignored path="Reversi.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +33,8 @@
           <file leaf-file-name="reversi_gui.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/reversi_gui.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1125">
-                  <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
+                <state relative-caret-position="87">
+                  <caret line="60" column="30" selection-start-line="60" selection-start-column="30" selection-end-line="60" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -48,8 +49,8 @@
           <file leaf-file-name="reversi_logic.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/reversi_logic.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="250" column="20" selection-start-line="250" selection-start-column="20" selection-end-line="250" selection-end-column="20" />
+                <state relative-caret-position="145">
+                  <caret line="47" column="59" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="59" />
                   <folding>
                     <element signature="e#8444#8621#0" expanded="false" />
                     <element signature="e#8662#9053#0" expanded="false" />
@@ -70,8 +71,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/reversi.py" />
-        <option value="$PROJECT_DIR$/reversi_gui.py" />
         <option value="$PROJECT_DIR$/reversi_logic.py" />
+        <option value="$PROJECT_DIR$/reversi_gui.py" />
       </list>
     </option>
   </component>
@@ -430,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1512286333319</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="remove corner closeness">
+      <created>1512286510670</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1512286510670</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -494,7 +502,8 @@
     <MESSAGE value="change file name" />
     <MESSAGE value="add main func" />
     <MESSAGE value="try to figure out d" />
-    <option name="LAST_COMMIT_MESSAGE" value="try to figure out d" />
+    <MESSAGE value="remove corner closeness" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove corner closeness" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -511,24 +520,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reversi_gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/reversi_logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="250" column="20" selection-start-line="250" selection-start-column="20" selection-end-line="250" selection-end-column="20" />
+        <state relative-caret-position="145">
+          <caret line="47" column="59" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="59" />
           <folding>
             <element signature="e#8444#8621#0" expanded="false" />
             <element signature="e#8662#9053#0" expanded="false" />
             <element signature="e#9102#9567#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reversi_gui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="60" column="30" selection-start-line="60" selection-start-column="30" selection-end-line="60" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
