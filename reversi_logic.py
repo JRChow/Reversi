@@ -14,6 +14,8 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     """Search game to determine best action; use alpha-beta pruning.
     This version cuts off search and uses an evaluation function."""
 
+    print(d)  # FIXME
+
     player = game.to_move(state)
 
     # Functions used by alpha-beta
@@ -67,6 +69,7 @@ def alphabeta_player(game, state):
 
 # ______________________________________________________________________________
 # Sample Game API
+
 
 class Game:
     """A game is similar to a problem, but it has a utility for each
