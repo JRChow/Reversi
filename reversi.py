@@ -7,6 +7,7 @@ from utils import argmax
 
 infinity = float('inf')
 GameState = namedtuple('GameState', 'to_move, utility, board, moves')
+
 # ______________________________________________________________________________
 
 
@@ -102,25 +103,18 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
 # Players for Games
 
 
-# def query_player(game, state):
-#     """Make a move by querying standard input."""
-#     print("current state:")
-#     game.display(state)
-#     print("available moves: {}".format(game.actions(state)))
-#     print("")
-#     move_string = input('Your move? ')
-#     try:
-#         move = eval(move_string)
-#     except NameError:
-#         move = move_string
-#     return move
-
-
-def query_player(event, arg):
-    print("clicked!")
-    print(arg)
-    board.buttons[arg].configure(bg="black")
-    return eval(arg)
+def query_player(game, state):
+    """Make a move by querying standard input."""
+    print("current state:")
+    game.display(state)
+    print("available moves: {}".format(game.actions(state)))
+    print("")
+    move_string = input('Your move? ')
+    try:
+        move = eval(move_string)
+    except NameError:
+        move = move_string
+    return move
 
 
 def random_player(game, state):
@@ -281,7 +275,8 @@ class Reversi(Game):
                     else:
                         print(board.get((x, y), '.',), end=' ')
                 if x == 0:
-                    print(y, end=' ')
+                    if y > 0:
+                        print(y, end=' ')
                 if y == 0:
                     print(x, end=' ')
             print()
@@ -316,8 +311,6 @@ class Reversi(Game):
         else:
             return 0
 
-    # def stability(self):  # TODO
 
-
-# game = Reversi()
-# game.play_game(query_player, alphabeta_player)
+game = Reversi()
+game.play_game(query_player, alphabeta_player)
