@@ -14,8 +14,6 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     """Search game to determine best action; use alpha-beta pruning.
     This version cuts off search and uses an evaluation function."""
 
-    print(d)  # FIXME
-
     player = game.to_move(state)
 
     # Functions used by alpha-beta
@@ -223,10 +221,9 @@ class Reversi(Game):
         if len(moves) == 0:
             return +100 if player == 'B' else -100
         else:
-            return 0.05 * self.coin_parity(board) + \
-                   0.05 * self.mobility(board) + \
-                   0.6 * self.corners_captured(board) + \
-                   0.3 * self.corner_closeness(board)
+            return 0.15 * self.coin_parity(board) + \
+                   0.15 * self.mobility(board) + \
+                   0.7 * self.corners_captured(board)
 
     @staticmethod
     def coin_parity(board):
@@ -252,17 +249,3 @@ class Reversi(Game):
             return 100 * (black_corner - white_corner) / (black_corner + white_corner)
         else:
             return 0
-
-    def corner_closeness(self, board):
-        """Measures the difference in the number of pieces close to the corners."""
-        near_corner = [board.get((1, 2)), board.get((2, 1)), board.get((2, 2)),
-                       board.get((2, self.height)), board.get((1, self.height-1)), board.get((2, self.height-1)),
-                       board.get((self.width, 2)), board.get((self.width-1, 1)), board.get((self.width-1, 2)),
-                       board.get((self.width-1, self.height)), board.get((self.width, self.height-1)), board.get((self.width-1, self.height-1))]
-        black_near_corner = near_corner.count('B')
-        white_near_corner = near_corner.count('W')
-        if (black_near_corner + white_near_corner) != 0:
-            return 100 * (black_near_corner - white_near_corner) / (black_near_corner + white_near_corner)
-        else:
-            return 0
-
