@@ -62,7 +62,7 @@ The game ends when:
 
 ### Search Engine
 
-### $$\alpha-\beta$$ Pruning
+### Alpha-beta Pruning
 
 ### Heuristics Applied
 
