@@ -104,18 +104,22 @@ From the experience of playing the game, we learned that corners are *crucial* b
 
 ### Evaluation Function
 
+![start](./img/eval_func.png)
 
+If the game has already ended, then returns +100 if the max player (That's you! Congratulations!🎉) has won, or returns -100 if the AI has won (Aww you lost…😭).
 
 ## Future Releases
 
-- Stability
-- Graphical Interface
-- Database for beginning of game and end games.
+- Add more heuristics (e.g. stability heuristic)
+- Prettify GUI
+- Use database to store the states of the game at the beginning and the end to speed up AI decision.
 
-## Reference
+## References
 
-http://www.flyordie.com/games/help/reversi/en/games_rules_reversi.html
+Flyordie.com. (n.d.). *Reversi Rules*. [online] Available at: http://www.flyordie.com/games/help/reversi/en/games_rules_reversi.html [Accessed 3 Dec. 2017].
 
-AIMA
+Kukreja, K. (2013). *Heuristic/Evaluation Function for Reversi/Othello*. [online] Everything Under The Sun. Available at: https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-reversiothello/ [Accessed 3 Dec. 2017].
 
-https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-reversiothello/
+Sannidhanam, V., & Annamalai, M. (2015). An Analysis of Heuristics in Othello.
+
+Stuart, R. and Norvig, P. (2010). *Artificial Intelligence: A Modern Approach*. 3rd ed. Englewood Cliffs: Prentice-Hall, pp.167-174.

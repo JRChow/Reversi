@@ -26,7 +26,7 @@
     <favorites_list name="Reversi" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.55073804">
+    <splitter split-orientation="horizontal" split-proportion="0.24354243">
       <split-first>
         <leaf>
           <file leaf-file-name="reversi_gui.py" pinned="false" current-in-tab="true">
@@ -60,7 +60,7 @@
           <file leaf-file-name="reversi_logic.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/reversi_logic.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="218">
+                <state relative-caret-position="23">
                   <caret line="223" column="22" selection-start-line="223" selection-start-column="22" selection-end-line="223" selection-end-column="22" />
                   <folding />
                 </state>
@@ -566,7 +566,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/reversi_logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
+        <state relative-caret-position="23">
           <caret line="223" column="22" selection-start-line="223" selection-start-column="22" selection-end-line="223" selection-end-column="22" />
           <folding />
         </state>
