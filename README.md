@@ -13,7 +13,9 @@ This is Jingran's mini-project for **COMP3270 Artificial Intelligence** at the U
 
 ## How to Run
 
-1. Download all the files [here](https://github.com/JRChow/Reversi).
+0. *Make sure the above requirements are met!*
+
+1. Download all the files from [GitHub](https://github.com/JRChow/Reversi).
 
 2. Unzip.
 
