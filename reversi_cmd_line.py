@@ -1,9 +1,7 @@
-"""Games, or Adversarial Search (Chapter 5)"""
+"""Games, or Adversarial Search."""
 
 from collections import namedtuple
 import random
-
-from utils import argmax
 
 infinity = float('inf')
 GameState = namedtuple('GameState', 'to_move, utility, board, moves')
@@ -13,7 +11,7 @@ GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 
 def alphabeta_search(state, game):
     """Search game to determine best action; use alpha-beta pruning.
-    As in [Figure 5.7], this version searches all the way to the leaves."""
+    This version searches all the way to the leaves."""
 
     player = game.to_move(state)
 
@@ -87,7 +85,7 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     # The default test cuts off at depth d or at a terminal state
     cutoff_test = (cutoff_test or
                    (lambda state, depth: depth > d or
-                    game.terminal_test(state)))
+                                         game.terminal_test(state)))
     eval_fn = eval_fn or (lambda state: game.utility(state, player))
     best_score = -infinity
     beta = infinity
@@ -172,14 +170,7 @@ class Game:
 
     def play_game(self, *players):
         """Play an n-person, move-alternating game."""
-        state = self.initial
-        while True:
-            for player in players:
-                move = player(self, state)
-                state = self.result(state, move)
-                if self.terminal_test(state):
-                    self.display(state)
-                    return self.utility(state, self.to_move(self.initial))
+        raise NotImplementedError
 
 
 class Reversi(Game):
@@ -197,7 +188,6 @@ class Reversi(Game):
         self.initial = GameState(
             to_move='B', utility=0, board=board, moves=moves)
 
-    # TODO: optimise and clarify
     def capture_enemy_in_dir(self, board, move, player, delta_x_y):
         """Returns true if any enemy is captured in the specified direction."""
         enemy = 'B' if player == 'W' else 'W'
@@ -220,18 +210,16 @@ class Reversi(Game):
             del enemy_list_1[:]
         return enemy_list_0 + enemy_list_1
 
-    # TODO: optimise and clarify
     def enemy_captured_by_move(self, board, move, player):
         return self.capture_enemy_in_dir(board, move, player, (0, 1)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, 0)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, -1)) \
-            + self.capture_enemy_in_dir(board, move, player, (1, 1))
+               + self.capture_enemy_in_dir(board, move, player, (1, 0)) \
+               + self.capture_enemy_in_dir(board, move, player, (1, -1)) \
+               + self.capture_enemy_in_dir(board, move, player, (1, 1))
 
     def actions(self, state):
         """Legal moves."""
         return state.moves
 
-    # TODO: optimise and clarify
     def get_valid_moves(self, board, player):
         """Returns a list of valid moves for the player judging from the board."""
         return [(x, y) for x in range(1, self.width + 1)
@@ -264,9 +252,9 @@ class Reversi(Game):
 
     def display(self, state):
         board = state.board
-        print('coin_parity = ' + str(self.coin_parity(board)))
-        print('mobility = ' + str(self.mobility(board)))
-        print('corners_captured = ' + str(self.corners_captured(board)))
+        print('coin_diff = ' + str(self.coin_diff(board)))
+        print('choice_diff = ' + str(self.choice_diff(board)))
+        print('corner_diff = ' + str(self.corner_diff(board)))
         for y in range(0, self.height + 1):
             for x in range(0, self.width + 1):
                 if x > 0 and y > 0:
@@ -282,15 +270,18 @@ class Reversi(Game):
             print()
 
     def compute_utility(self, board, move, player):
-        if (len(self.get_valid_moves(board, player)) == 0):
+        if len(self.get_valid_moves(board, player)) == 0:
             return +100 if player == 'B' else -100
         else:
-            return 0.4 * self.coin_parity(board) + 0.3 * self.mobility(board) + 0.3 * self.corners_captured(board)
+            return 0.4 * self.coin_diff(board) + 0.3 * self.choice_diff(board) + 0.3 * self.corner_diff(board)
 
-    def coin_parity(self, board):
+    @staticmethod
+    def coin_diff(board):
+        """Difference in the number of coins."""
         return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
 
-    def mobility(self, board):
+    def choice_diff(self, board):
+        """Difference in the number of choices available."""
         black_moves_num = len(self.get_valid_moves(board, 'B'))
         white_moves_num = len(self.get_valid_moves(board, 'W'))
         if (black_moves_num + white_moves_num) != 0:
@@ -298,18 +289,27 @@ class Reversi(Game):
         else:
             return 0
 
-    def corners_captured(self, board):
-        corner = []
-        corner.append(board.get((1, 1)))
-        corner.append(board.get((1, self.height)))
-        corner.append(board.get((self.width, 1)))
-        corner.append(board.get((self.width, self.height)))
+    def corner_diff(self, board):
+        """Difference in the number of corners captured."""
+        corner = [board.get((1, 1)), board.get((1, self.height)), board.get((self.width, 1)),
+                  board.get((self.width, self.height))]
         black_corner = corner.count('B')
         white_corner = corner.count('W')
         if (black_corner + white_corner) != 0:
             return 100 * (black_corner - white_corner) / (black_corner + white_corner)
         else:
             return 0
+
+    def play_game(self, *players):
+        """Play an n-person, move-alternating game."""
+        state = self.initial
+        while True:
+            for player in players:
+                move = player(self, state)
+                state = self.result(state, move)
+                if self.terminal_test(state):
+                    self.display(state)
+                    return self.utility(state, self.to_move(self.initial))
 
 
 game = Reversi()

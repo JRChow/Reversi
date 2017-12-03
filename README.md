@@ -64,11 +64,11 @@ The game ends when:
 
 ### Search Engine
 
-Minimax procedure with $$\alpha-\beta$$ pruning.
+Minimax procedure with alpha-beta pruning.
 
 ### Alpha-beta Pruning
 
-The AI employs the $$\alpha-\beta$$ pruning algorithm described in Chapter 5 of the book *Artificial Intelligence: A Modern Approach*. The detailed pseudocode is listed below:
+The AI employs the alpha-beta pruning algorithm described in Chapter 5 of the book *Artificial Intelligence: A Modern Approach*. The detailed pseudocode is listed below:
 
 ![start](./img/alpha-beta_pruning.png)
 
@@ -99,3 +99,5 @@ Note the depth limit can be modified at line 66 in `reversi_logic.py`.
 ## Reference
 
 http://www.flyordie.com/games/help/reversi/en/games_rules_reversi.html
+
+AIMA

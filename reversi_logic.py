@@ -200,9 +200,9 @@ class Reversi(Game):
     def display(self, state):
         """Text output."""
         board = state.board
-        print('coin_parity = ' + str(self.coin_parity(board)))
-        print('mobility = ' + str(self.mobility(board)))
-        print('corners_captured = ' + str(self.corners_captured(board)))
+        print('coin_diff = ' + str(self.coin_diff(board)))
+        print('choice_diff = ' + str(self.choice_diff(board)))
+        print('corner_diff = ' + str(self.corner_diff(board)))
         for y in range(0, self.height + 1):
             for x in range(0, self.width + 1):
                 if x > 0 and y > 0:
@@ -221,17 +221,17 @@ class Reversi(Game):
         if len(moves) == 0:
             return +100 if player == 'B' else -100
         else:
-            return 0.15 * self.coin_parity(board) + \
-                   0.15 * self.mobility(board) + \
-                   0.7 * self.corners_captured(board)
+            return 0.15 * self.coin_diff(board) + \
+                   0.15 * self.choice_diff(board) + \
+                   0.7 * self.corner_diff(board)
 
     @staticmethod
-    def coin_parity(board):
+    def coin_diff(board):
         """Measures the difference in the number of pieces on board."""
         return 100 * (sum(x == 'B' for x in board.values()) - sum(x == 'W' for x in board.values())) / len(board)
 
-    def mobility(self, board):
-        """Measures the difference in the mobility in terms of available choices."""
+    def choice_diff(self, board):
+        """Measures the difference in the choice_diff in terms of available choices."""
         black_moves_num = len(self.get_valid_moves(board, 'B'))
         white_moves_num = len(self.get_valid_moves(board, 'W'))
         if (black_moves_num + white_moves_num) != 0:
@@ -239,7 +239,7 @@ class Reversi(Game):
         else:
             return 0
 
-    def corners_captured(self, board):
+    def corner_diff(self, board):
         """Measures the difference in the number of corners captured."""
         corner = [board.get((1, 1)), board.get((1, self.height)), board.get((self.width, 1)),
                   board.get((self.width, self.height))]
