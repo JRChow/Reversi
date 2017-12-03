@@ -73,9 +73,9 @@ class Board:
             messagebox.showinfo(
                 "Game Ends", "You Win!" if self.state.utility == +100 else "You lose!")
 
-
-root = Tk()
-root.title('Reversi')
-game = logic.Reversi()
-board = Board(root, game)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    root.title('Reversi')
+    game = logic.Reversi()
+    board = Board(root, game)
+    root.mainloop()
