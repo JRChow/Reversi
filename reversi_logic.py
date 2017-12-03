@@ -10,7 +10,7 @@ GameState = namedtuple('GameState', 'to_move, utility, board, moves')
 # Alpha-beta cut-off search
 
 
-def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
+def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     """Search game to determine best action; use alpha-beta pruning.
     This version cuts off search and uses an evaluation function."""
 
@@ -63,8 +63,7 @@ def alphabeta_cutoff_search(state, game, d=5, cutoff_test=None, eval_fn=None):
 
 
 def alphabeta_player(game, state):
-    return alphabeta_cutoff_search(state, game, d=4)
-
+    return alphabeta_cutoff_search(state, game, d=5)
 
 # ______________________________________________________________________________
 # Sample Game API

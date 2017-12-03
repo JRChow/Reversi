@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9d42625e-238a-4f67-a791-b5f3af1e0c35" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reversi_logic.py" afterPath="$PROJECT_DIR$/reversi_logic.py" />
     </list>
     <ignored path="Reversi.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +32,7 @@
           <file leaf-file-name="reversi_gui.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/reversi_gui.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1125">
+                <state relative-caret-position="282">
                   <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
@@ -47,14 +48,14 @@
           <file leaf-file-name="reversi_logic.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/reversi_logic.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="975">
-                  <caret line="149" column="14" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
+                <state relative-caret-position="285">
+                  <caret line="68" column="17" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
                   <folding>
                     <element signature="e#381#1990#0" expanded="false" />
-                    <element signature="e#2302#3774#0" expanded="false" />
-                    <element signature="e#8502#8679#0" expanded="false" />
-                    <element signature="e#8720#9111#0" expanded="false" />
-                    <element signature="e#9160#9625#0" expanded="false" />
+                    <element signature="e#2301#3773#0" expanded="false" />
+                    <element signature="e#8501#8678#0" expanded="false" />
+                    <element signature="e#8719#9110#0" expanded="false" />
+                    <element signature="e#9159#9624#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -70,9 +71,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/reversi_logic.py" />
         <option value="$PROJECT_DIR$/reversi.py" />
         <option value="$PROJECT_DIR$/reversi_gui.py" />
+        <option value="$PROJECT_DIR$/reversi_logic.py" />
       </list>
     </option>
   </component>
@@ -506,7 +507,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/reversi_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
+        <state relative-caret-position="282">
           <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
@@ -516,14 +517,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/reversi_logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="149" column="14" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
+        <state relative-caret-position="285">
+          <caret line="68" column="17" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
           <folding>
             <element signature="e#381#1990#0" expanded="false" />
-            <element signature="e#2302#3774#0" expanded="false" />
-            <element signature="e#8502#8679#0" expanded="false" />
-            <element signature="e#8720#9111#0" expanded="false" />
-            <element signature="e#9160#9625#0" expanded="false" />
+            <element signature="e#2301#3773#0" expanded="false" />
+            <element signature="e#8501#8678#0" expanded="false" />
+            <element signature="e#8719#9110#0" expanded="false" />
+            <element signature="e#9159#9624#0" expanded="false" />
           </folding>
         </state>
       </provider>

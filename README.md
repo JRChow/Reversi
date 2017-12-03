@@ -4,6 +4,8 @@ This is a Python program for playing **Othello** (or **Reversi**) against an AI 
 
 This project is developed on Ubuntu 16.04 LTS.
 
+This is Jingran's mini-project for **COMP3270 Artificial Intelligence** at the University of Hong Kong.
+
 ## Requirements
 
 - [Python 3.6](https://www.python.org/downloads/release/python-363/)
@@ -41,7 +43,7 @@ The object of the game is to own more pieces than your opponent when the game is
 
 The game is started in the position shown below on a reversi board consisting of 64 squares in an 8x8 grid. 
 
-![start](/img/start.png)
+![start](./img/start.png)
 
 ### Playing the Game
 
@@ -62,7 +64,19 @@ The game ends when:
 
 ### Search Engine
 
+Minimax procedure with $$\alpha-\beta$$ pruning.
+
 ### Alpha-beta Pruning
+
+The AI employs the $$\alpha-\beta$$ pruning algorithm described in Chapter 5 of the book *Artificial Intelligence: A Modern Approach*. The detailed pseudocode is listed below:
+
+![start](./img/alpha-beta_pruning.png)
+
+#### Cutting Off Search
+
+To limit the time the AI spends on searching, a **cutoff test** is introduced. So when it is appropriate to cut off the search, it'll call the heuristic function to choose a move.
+
+The specific cutoff test for this application is easy: ***the depth of the search is limited to 5 levels.*** In other words, *the number of look ahead steps is 5* by default. Note this can be modified at line 66 in `reversi_logic.py`.
 
 ### Heuristics Applied
 
@@ -77,6 +91,10 @@ The game ends when:
 ### Evaluation Function
 
 ## Future Releases
+
+- Stability
+- Graphical Interface
+- Database for beginning of game and end games.
 
 ## Reference
 
