@@ -4,8 +4,6 @@ This is a Python program for playing **Othello** (or **Reversi**) against an AI 
 
 This project is developed on Ubuntu 16.04 LTS.
 
-This is Jingran's mini-project for **COMP3270 Artificial Intelligence** at the University of Hong Kong.
-
 ## Requirements
 
 - [Python 3.6](https://www.python.org/downloads/release/python-363/)
